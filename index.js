@@ -12,45 +12,46 @@ function getInputData(){
         return;
     }
     //計算結果取得
-    const calculationResult = calculation(changedData);
+    const calculationResult = calculation(changedData[0],changedData[1],changedData[2]);
     //計算結果をhtmlに挿入
     result.innerText = calculationResult;
+}
 
-    function getElement(data){
-        data = inputData.split(' ');
+    function getElement(inputData){
+        const data = inputData.split(' ');
         let arrayoperator = ["+","-","/","*"];
         if(data.length !== 3){
             return null;
         }
-         const num1 = parseInt(data[0]);
-         const operator = data[1];
-         const num2 = parseInt(data[2]);
-
-         if(!isNaN(num1) && !isNaN(num2)){
-            if(arrayoperator.includes(operator)){
-                return{operator,num1,num2};
-            }
+        const num1 = parseInt(data[0]);
+        const operator = data[1];
+        const num2 = parseInt(data[2]);
+        
+        if(isNaN(num1) || isNaN(num2) || !arrayoperator.includes(operator)){
+           return null;
         }
-        return null;
+        return[operator,num1,num2];
     }
+    
 
-    function calculation (calculationResult){
-        switch(changedData.operator){
+
+    function calculation (operator,num1,num2){
+        switch(operator){
             case "+":
-                calculationResult = changedData.num1 + changedData.num2;
+                calculationResult = num1 + num2;
                 return calculationResult;
             case "-":
-                calculationResult = changedData.num1 - changedData.num2;
+                calculationResult = num1 - num2;
                 return calculationResult;
             case "*":
-                calculationResult = changedData.num1 * changedData.num2;
+                calculationResult = num1 * num2;
                 return calculationResult;
             case "/":
-                calculationResult = changedData.num1 / changedData.num2;
+                calculationResult = num1 / num2;
                 return calculationResult;
             
             default:
                 return calculationResult = "計算式が不正です";
         }
     }
-}
+
